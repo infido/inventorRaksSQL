@@ -36,7 +36,7 @@
             this.textBoxInputScaner = new System.Windows.Forms.TextBox();
             this.comboBoxTypRemanentu = new System.Windows.Forms.ComboBox();
             this.panelHistory = new System.Windows.Forms.Panel();
-            this.textBoxHistory = new System.Windows.Forms.TextBox();
+            this.textBoxBufor = new System.Windows.Forms.TextBox();
             this.panelSzczegoly = new System.Windows.Forms.Panel();
             this.panelSkaner = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -130,7 +130,7 @@
             // 
             // panelHistory
             // 
-            this.panelHistory.Controls.Add(this.textBoxHistory);
+            this.panelHistory.Controls.Add(this.textBoxBufor);
             this.panelHistory.Controls.Add(this.panelSkaner);
             this.panelHistory.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelHistory.Location = new System.Drawing.Point(0, 70);
@@ -138,17 +138,17 @@
             this.panelHistory.Size = new System.Drawing.Size(341, 492);
             this.panelHistory.TabIndex = 3;
             // 
-            // textBoxHistory
+            // textBoxBufor
             // 
-            this.textBoxHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBoxHistory.Location = new System.Drawing.Point(0, 91);
-            this.textBoxHistory.Multiline = true;
-            this.textBoxHistory.Name = "textBoxHistory";
-            this.textBoxHistory.Size = new System.Drawing.Size(341, 401);
-            this.textBoxHistory.TabIndex = 0;
-            this.textBoxHistory.TextChanged += new System.EventHandler(this.textBoxHistory_TextChanged);
-            this.textBoxHistory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxHistory_KeyDown);
+            this.textBoxBufor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxBufor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBoxBufor.Location = new System.Drawing.Point(0, 91);
+            this.textBoxBufor.Multiline = true;
+            this.textBoxBufor.Name = "textBoxBufor";
+            this.textBoxBufor.Size = new System.Drawing.Size(341, 401);
+            this.textBoxBufor.TabIndex = 0;
+            this.textBoxBufor.TextChanged += new System.EventHandler(this.textBoxHistory_TextChanged);
+            this.textBoxBufor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxHistory_KeyDown);
             // 
             // panelSzczegoly
             // 
@@ -213,7 +213,7 @@
             // textBoxLogin
             // 
             this.textBoxLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBoxLogin.Location = new System.Drawing.Point(997, 11);
+            this.textBoxLogin.Location = new System.Drawing.Point(1006, 11);
             this.textBoxLogin.Name = "textBoxLogin";
             this.textBoxLogin.Size = new System.Drawing.Size(142, 21);
             this.textBoxLogin.TabIndex = 1;
@@ -230,11 +230,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(949, 14);
+            this.label4.Location = new System.Drawing.Point(942, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.Size = new System.Drawing.Size(58, 26);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Login";
+            this.label4.Text = "Nazwisko i\r\nlokalizacja";
             // 
             // panelHistoria
             // 
@@ -393,7 +393,7 @@
         private System.Windows.Forms.ComboBox comboBoxTypRemanentu;
         private System.Windows.Forms.Panel panelHistory;
         private System.Windows.Forms.Panel panelSzczegoly;
-        private System.Windows.Forms.TextBox textBoxHistory;
+        private System.Windows.Forms.TextBox textBoxBufor;
         private System.Windows.Forms.TextBox textBoxInputScaner;
         private System.Windows.Forms.Panel panelSkaner;
         private System.Windows.Forms.Label label2;

@@ -74,7 +74,7 @@ namespace InventorRaksSQL
             {
                 zaspisPojedynczegoKoduDoPlikuLog(textBoxInputScaner.Text);
                 
-                textBoxHistory.Text += textBoxInputScaner.Text + Environment.NewLine;
+                textBoxBufor.Text += textBoxInputScaner.Text + Environment.NewLine;
                 textBoxInputScaner.Text = "";
             }
         }
@@ -98,13 +98,32 @@ namespace InventorRaksSQL
             }
         }
 
+        private void zaspisPojedynczegoBlednegoKoduDoPlikuLog(string kod)
+        {
+            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_error_" + DateTime.Now.ToShortDateString() + ".log", true);
+            try
+            {
+                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
         private void zaspisWszystkichKodowDoPlikuLog()
         {
             StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_all_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
                 writer.WriteLine("Zapis po wklejeniu ze schowka;" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
-                writer.WriteLine(textBoxHistory.Text);
+                writer.WriteLine(textBoxBufor.Text);
 
             }
             catch (Exception ex)
@@ -122,8 +141,12 @@ namespace InventorRaksSQL
         {
             if (checkIsLogin())
             {
-            textBoxHistoriaKodowPelna.Text += "tekst " + Environment.NewLine + "tekst " + Environment.NewLine + "tekst " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Value + Environment.NewLine;
-            textBoxHistoriaNieudanychKodow.Text += "kod " + Environment.NewLine + "kod " + Environment.NewLine + "kod " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key + Environment.NewLine;
+                textBoxHistoriaKodowPelna.Text += "tekst " + Environment.NewLine + "tekst " + Environment.NewLine + "tekst " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Value + Environment.NewLine;
+                textBoxHistoriaNieudanychKodow.Text += "kod " + Environment.NewLine + "kod " + Environment.NewLine + "kod " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key + Environment.NewLine;
+                foreach (string item in textBoxBufor.Lines)
+                    {
+                        dopiszDoRemanentu(item, ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key, comboBoxTypRemanentu.ToString(), textBoxLogin.Text);
+                    }
             }
         }
 
@@ -131,7 +154,7 @@ namespace InventorRaksSQL
         {
             if (textBoxLogin.Text.Length == 0)
             {
-                MessageBox.Show("Nie uzupełniono loginu użytkownika", "Ostrzeżenie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nie uzupełniono Nazwiska użytkownika i lokalizacji", "Ostrzeżenie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxLogin.Focus();
                 return false;
             }
@@ -140,7 +163,7 @@ namespace InventorRaksSQL
 
         private void textBoxHistory_TextChanged(object sender, EventArgs e)
         {
-            if (lineCounter != textBoxHistory.Lines.Count())
+            if (lineCounter != textBoxBufor.Lines.Count())
             {
                 //MessageBox.Show("LN" + textBoxHistory.Lines.Count() +";" + textBoxHistory.Lines.GetValue(textBoxHistory.Lines.Count()-2).ToString());
             }
@@ -155,6 +178,66 @@ namespace InventorRaksSQL
             {
                 zaspisWszystkichKodowDoPlikuLog();
             }
+        }
+
+        private void dopiszDoRemanentu(string kodKreskowy, int idRemanentu, string opisRemanetu, string lokalizacja)
+        {
+            FbCommand cdk;
+            string sql;
+            int currId = -1;
+            int pozostalo = 0;
+            int jestRekordow = 0;
+
+            sql = "select count(*) ";
+            sql += "from GM_REPOZ join GM_TOWARY on GM_REPOZ.ID_TOWAR=GM_TOWARY.ID ";
+            sql+= "WHERE GM_REPOZ.ID_RE=" + idRemanentu +  " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA";
+            sql+= "order by GM_REPOZ.DATA_ZAKUPU DESC";
+            cdk = new FbCommand(sql, polaczenie.getConnection());
+
+            try
+            {
+                jestRekordow = (int)cdk.ExecuteScalar();
+            }
+            catch (FbException ex)
+            {
+                MessageBox.Show("Błąd zapytani o ilośc rekordów: " +ex.Message);
+                throw;
+            }
+
+            if (jestRekordow > 0)
+            {
+                sql = "select GM_REPOZ.IDPOZ, GM_REPOZ.ID_RE, GM_REPOZ.ID_TOWAR, GM_REPOZ.DATA_ZAKUPU,";
+                sql += "GM_REPOZ.ILOSC_NOWA, GM_REPOZ.ILOSC_STARA, GM_REPOZ.CENA_STARA, GM_TOWARY.SKROT, GM_TOWARY.SKROT2, GM_TOWARY.KOD_KRESKOWY ";
+                sql += "from GM_REPOZ join GM_TOWARY on GM_REPOZ.ID_TOWAR=GM_TOWARY.ID ";
+                sql += "WHERE GM_REPOZ.ID_RE=" + idRemanentu + " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA";
+                sql += "order by GM_REPOZ.DATA_ZAKUPU DESC";
+                cdk = new FbCommand(sql, polaczenie.getConnection());
+                try
+                {
+                    FbDataReader fdk = cdk.ExecuteReader();
+                    while (fdk.Read() && pozostalo>0)
+                    {
+                        currId = (int)fdk["IDPOZ"];
+                        // sprawdzenei czy moze być
+                    }
+                }
+                catch (FbException ex)
+                {
+                    MessageBox.Show("Błąd wczytywania listy remanentów: " + ex.Message);
+                }
+            }
+            else
+            {
+                dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja);
+            }
+        }
+
+
+
+        private void dopiszNieudanyKodDoListyOrazLog(string kodKreskowy, int idRemanentu, string opisRemanetu, string lokalizacja)
+        {
+            textBoxHistoriaNieudanychKodow.Text += kodKreskowy;
+            zaspisPojedynczegoBlednegoKoduDoPlikuLog(kodKreskowy);
         }
 
     }
