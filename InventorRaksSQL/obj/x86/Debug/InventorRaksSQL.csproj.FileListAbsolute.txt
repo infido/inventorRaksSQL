@@ -1,0 +1,11 @@
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.Start.resources
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.Properties.Resources.resources
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\InventorRaksSQL.exe
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\InventorRaksSQL.pdb
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.ConnectionDB.resources
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.exe
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.pdb
+c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
