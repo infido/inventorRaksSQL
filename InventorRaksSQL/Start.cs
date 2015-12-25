@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FirebirdSql.Data.FirebirdClient;
+using System.IO;
 
 namespace InventorRaksSQL
 {
@@ -23,6 +24,8 @@ namespace InventorRaksSQL
 
         private Int32 memberRow = -1;
         private Int32 memberColumn = -1;
+
+        private Int32 lineCounter = 0;
         
         public Start()
         {
@@ -67,17 +70,92 @@ namespace InventorRaksSQL
 
         private void textBoxInputScaner_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == Convert.ToChar(Keys.Return))
+            if (checkIsLogin() && e.KeyChar == Convert.ToChar(Keys.Return))
             {
+                zaspisPojedynczegoKoduDoPlikuLog(textBoxInputScaner.Text);
+                
                 textBoxHistory.Text += textBoxInputScaner.Text + Environment.NewLine;
                 textBoxInputScaner.Text = "";
             }
         }
 
+        private void zaspisPojedynczegoKoduDoPlikuLog(string kod)
+        {
+            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_poj_" + DateTime.Now.ToShortDateString() + ".log", true);
+            try
+            {
+                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString()+";"+comboBoxTypRemanentu.Text);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        private void zaspisWszystkichKodowDoPlikuLog()
+        {
+            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_all_" + DateTime.Now.ToShortDateString() + ".log", true);
+            try
+            {
+                writer.WriteLine("Zapis po wklejeniu ze schowka;" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
+                writer.WriteLine(textBoxHistory.Text);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            textBoxHistoriaKodowPelna.Text += "tekst " + Environment.NewLine + "tekst " + Environment.NewLine + "tekst " + Environment.NewLine;
-            textBoxHistoriaNieudanychKodow.Text += "kod " + Environment.NewLine + "kod " + Environment.NewLine + "kod " + Environment.NewLine;
+            if (checkIsLogin())
+            {
+            textBoxHistoriaKodowPelna.Text += "tekst " + Environment.NewLine + "tekst " + Environment.NewLine + "tekst " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Value + Environment.NewLine;
+            textBoxHistoriaNieudanychKodow.Text += "kod " + Environment.NewLine + "kod " + Environment.NewLine + "kod " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key + Environment.NewLine;
+            }
         }
+
+        private bool checkIsLogin()
+        {
+            if (textBoxLogin.Text.Length == 0)
+            {
+                MessageBox.Show("Nie uzupełniono loginu użytkownika", "Ostrzeżenie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxLogin.Focus();
+                return false;
+            }
+            else return true;
+        }
+
+        private void textBoxHistory_TextChanged(object sender, EventArgs e)
+        {
+            if (lineCounter != textBoxHistory.Lines.Count())
+            {
+                //MessageBox.Show("LN" + textBoxHistory.Lines.Count() +";" + textBoxHistory.Lines.GetValue(textBoxHistory.Lines.Count()-2).ToString());
+            }
+        }
+
+        private void textBoxHistory_KeyDown(object sender, KeyEventArgs e)
+        {
+            bool ctrlV = e.Modifiers == Keys.Control && e.KeyCode == Keys.V;
+            bool shiftIns = e.Modifiers == Keys.Shift && e.KeyCode == Keys.Insert;
+
+            if (ctrlV || shiftIns)
+            {
+                zaspisWszystkichKodowDoPlikuLog();
+            }
+        }
+
     }
 }

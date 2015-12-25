@@ -147,6 +147,8 @@
             this.textBoxHistory.Name = "textBoxHistory";
             this.textBoxHistory.Size = new System.Drawing.Size(341, 401);
             this.textBoxHistory.TabIndex = 0;
+            this.textBoxHistory.TextChanged += new System.EventHandler(this.textBoxHistory_TextChanged);
+            this.textBoxHistory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxHistory_KeyDown);
             // 
             // panelSzczegoly
             // 
