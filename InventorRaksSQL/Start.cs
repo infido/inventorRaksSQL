@@ -66,6 +66,7 @@ namespace InventorRaksSQL
 
         private void Start_FormClosing(object sender, FormClosingEventArgs e)
         {
+            zaspisZrzutuDoPlikuLog();
             polaczenie.Close();
         }
 
@@ -141,6 +142,40 @@ namespace InventorRaksSQL
             }
         }
 
+        private void zaspisZrzutuDoPlikuLog()
+        {
+            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_zrzut_" + DateTime.Now.ToShortDateString() + ".log", true);
+            try
+            {
+                writer.WriteLine("Początek " + DateTime.Now.ToString() + Environment.NewLine);
+
+                writer.WriteLine("Zrzut >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + Environment.NewLine + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text + Environment.NewLine);
+                
+                writer.WriteLine("BUFOR START ====================================");
+                writer.WriteLine(textBoxBufor.Text);
+                writer.WriteLine("BUFOR KONIEC ====================================" + Environment.NewLine);
+
+                writer.WriteLine("HISTORIA START ====================================");
+                writer.WriteLine(textBoxHistoriaKodowPelna.Text);
+                writer.WriteLine("HISTORIA KONIEC ====================================" + Environment.NewLine);
+
+
+                writer.WriteLine("NIEUDANE KODY START ====================================");
+                writer.WriteLine(textBoxHistoriaNieudanychKodow.Text);
+                writer.WriteLine("NIEUDANE KODY KONIEC ====================================" + Environment.NewLine);
+                writer.WriteLine("Koniec " + DateTime.Now.ToString() + Environment.NewLine + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (checkIsLogin())
@@ -152,7 +187,7 @@ namespace InventorRaksSQL
                         if (item.Length > 0)
                         {
                             dopiszDoRemanentu(item, ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key, comboBoxTypRemanentu.ToString(), textBoxLogin.Text);
-                        }
+                        }         
                     }
                 //zapis i czyszczenie
                 zaspisWszystkichKodowDoPlikuLog("Zapis przy zapisywaniu do remanentu: ");

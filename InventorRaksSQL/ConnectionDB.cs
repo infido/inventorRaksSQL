@@ -148,6 +148,7 @@ namespace InventorRaksSQL
                 //setloc[3] = "DataSource=\\\\infra05;";
                 //setloc[3] = "DataSource=10.6.3.9;";
                 //setloc[3] = "DataSource=localhost;";
+                
                 setloc[3] = "DataSource=127.0.0.1;";
                 //setloc[3] = "DataSource=10.0.0.100;";
             };

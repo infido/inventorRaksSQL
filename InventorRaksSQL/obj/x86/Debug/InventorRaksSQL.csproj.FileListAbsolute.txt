@@ -9,3 +9,7 @@ c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\Invent
 c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.exe
 c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.pdb
 c:\documents and settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
+C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\InventorRaksSQL.exe.manifest
+C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\InventorRaksSQL.application
+C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.exe.manifest
+C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.application
