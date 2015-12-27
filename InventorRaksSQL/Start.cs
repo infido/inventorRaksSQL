@@ -98,12 +98,12 @@ namespace InventorRaksSQL
             }
         }
 
-        private void zaspisPojedynczegoBlednegoKoduDoPlikuLog(string kod)
+        private void zaspisPojedynczegoBlednegoKoduDoPlikuLog(string kod, string dodatkowyOpis)
         {
             StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_error_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
-                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
+                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text +";"+dodatkowyOpis);
 
             }
             catch (Exception ex)
@@ -117,12 +117,12 @@ namespace InventorRaksSQL
             }
         }
 
-        private void zaspisWszystkichKodowDoPlikuLog()
+        private void zaspisWszystkichKodowDoPlikuLog(string opisDoLoga)
         {
             StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_all_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
-                writer.WriteLine("Zapis po wklejeniu ze schowka;" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
+                writer.WriteLine(opisDoLoga + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
                 writer.WriteLine(textBoxBufor.Text);
 
             }
@@ -141,12 +141,18 @@ namespace InventorRaksSQL
         {
             if (checkIsLogin())
             {
-                textBoxHistoriaKodowPelna.Text += "tekst " + Environment.NewLine + "tekst " + Environment.NewLine + "tekst " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Value + Environment.NewLine;
-                textBoxHistoriaNieudanychKodow.Text += "kod " + Environment.NewLine + "kod " + Environment.NewLine + "kod " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key + Environment.NewLine;
+                //textBoxHistoriaKodowPelna.Text += "tekst " + Environment.NewLine + "tekst " + Environment.NewLine + "tekst " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Value + Environment.NewLine;
+                //textBoxHistoriaNieudanychKodow.Text += "kod " + Environment.NewLine + "kod " + Environment.NewLine + "kod " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key + Environment.NewLine;
                 foreach (string item in textBoxBufor.Lines)
                     {
-                        dopiszDoRemanentu(item, ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key, comboBoxTypRemanentu.ToString(), textBoxLogin.Text);
+                        if (item.Length > 0)
+                        {
+                            dopiszDoRemanentu(item, ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key, comboBoxTypRemanentu.ToString(), textBoxLogin.Text);
+                        }
                     }
+                //zapis i czyszczenie
+                zaspisWszystkichKodowDoPlikuLog("Zapis przy zapisywaniu do remanentu: ");
+                textBoxBufor.Text = "";
             }
         }
 
@@ -176,22 +182,25 @@ namespace InventorRaksSQL
 
             if (ctrlV || shiftIns)
             {
-                zaspisWszystkichKodowDoPlikuLog();
+                zaspisWszystkichKodowDoPlikuLog("Zapis po wklejeniu ze schowka;");
             }
         }
 
         private void dopiszDoRemanentu(string kodKreskowy, int idRemanentu, string opisRemanetu, string lokalizacja)
         {
             FbCommand cdk;
+            FbCommand cdi;
             string sql;
+            string errOpis = "";
             int currId = -1;
-            int pozostalo = 0;
+            decimal pozostalo = 1;  //skanujemy tylko 1 jednocześnie
             int jestRekordow = 0;
+            decimal ilStara = 0;
+            decimal ilNowa = 0;
 
             sql = "select count(*) ";
             sql += "from GM_REPOZ join GM_TOWARY on GM_REPOZ.ID_TOWAR=GM_TOWARY.ID ";
-            sql+= "WHERE GM_REPOZ.ID_RE=" + idRemanentu +  " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA";
-            sql+= "order by GM_REPOZ.DATA_ZAKUPU DESC";
+            sql+= "WHERE GM_REPOZ.ID_RE=" + idRemanentu +  " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA ";
             cdk = new FbCommand(sql, polaczenie.getConnection());
 
             try
@@ -209,35 +218,81 @@ namespace InventorRaksSQL
                 sql = "select GM_REPOZ.IDPOZ, GM_REPOZ.ID_RE, GM_REPOZ.ID_TOWAR, GM_REPOZ.DATA_ZAKUPU,";
                 sql += "GM_REPOZ.ILOSC_NOWA, GM_REPOZ.ILOSC_STARA, GM_REPOZ.CENA_STARA, GM_TOWARY.SKROT, GM_TOWARY.SKROT2, GM_TOWARY.KOD_KRESKOWY ";
                 sql += "from GM_REPOZ join GM_TOWARY on GM_REPOZ.ID_TOWAR=GM_TOWARY.ID ";
-                sql += "WHERE GM_REPOZ.ID_RE=" + idRemanentu + " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA";
+                sql += "WHERE GM_REPOZ.ID_RE=" + idRemanentu + " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA ";
                 sql += "order by GM_REPOZ.DATA_ZAKUPU DESC";
                 cdk = new FbCommand(sql, polaczenie.getConnection());
+
+
                 try
                 {
                     FbDataReader fdk = cdk.ExecuteReader();
                     while (fdk.Read() && pozostalo>0)
                     {
                         currId = (int)fdk["IDPOZ"];
-                        // sprawdzenei czy moze być
+                        ilStara = (decimal)fdk["ILOSC_STARA"];
+                        ilNowa = (decimal)fdk["ILOSC_NOWA"];
+                        if ((ilStara - ilNowa) >= pozostalo)
+                        {
+                            cdi = new FbCommand("update GM_REPOZ set ILOSC_NOWA=" + (ilNowa + pozostalo) + " where IDPOZ=" + currId, polaczenie.getConnection());
+                            try
+                            {
+                                cdi.ExecuteNonQuery();
+                                textBoxHistoriaKodowPelna.Text += "Kod: " + kodKreskowy + "; Zwiększenie ilości z " + ilNowa + " na " + (ilNowa+pozostalo) + Environment.NewLine;
+                            }
+                            catch (Exception ec)
+                            {
+                                MessageBox.Show("Błąd zwiększania na pozycji remanentu dla kk: " + kodKreskowy + "Błąd: " + ec.Message);
+                                throw;
+                            }
+                            pozostalo = 0;
+                        }
+                        else
+                        {
+                            cdi = new FbCommand("update GM_REPOZ set ILOSC_NOWA=" + (ilStara - ilNowa) + " where IDPOZ=" + currId, polaczenie.getConnection());
+                            try
+                            {
+                                cdi.ExecuteNonQuery();
+                                textBoxHistoriaKodowPelna.Text += "Kod: " + kodKreskowy + "; Zwiększenie ilości w petli z " + ilNowa + " na " + (ilNowa + (ilStara - ilNowa)) + Environment.NewLine;
+                            }
+                            catch (Exception ec)
+                            {
+                                MessageBox.Show("Błąd zwiększania na pozycji remanentu dla kk: " + kodKreskowy + ", dla pozycji mniej niż do przypisania, Błąd: " + ec.Message);
+                                throw;
+                            }
+                            pozostalo -= (ilStara - ilNowa);
+                        }
+                        
+                    }
+
+                    if (pozostalo > 0)
+                    {
+                        errOpis = "W remanancie brak wystarczającej ilosci pozycji do zwiększenia, proszę sprawdzić recznie do jakiej dostawy posicać lub czy nie jest na innym magazynie. Kod:" + kodKreskowy;
+                        MessageBox.Show(errOpis);
+                        textBoxHistoriaKodowPelna.Text += errOpis + Environment.NewLine;
+                        dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja, errOpis);
                     }
                 }
                 catch (FbException ex)
                 {
-                    MessageBox.Show("Błąd wczytywania listy remanentów: " + ex.Message);
+                    errOpis = "Błąd wczytywania listy remanentów: " + ex.Message;
+                    textBoxHistoriaKodowPelna.Text += errOpis + Environment.NewLine;
+                    MessageBox.Show(errOpis);
                 }
             }
             else
             {
-                dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja);
+                errOpis = "Brak pozycji z wystarczającą ilością dla kodu: " + kodKreskowy;
+                textBoxHistoriaKodowPelna.Text += errOpis + Environment.NewLine;
+                dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja, errOpis);
             }
         }
 
 
 
-        private void dopiszNieudanyKodDoListyOrazLog(string kodKreskowy, int idRemanentu, string opisRemanetu, string lokalizacja)
+        private void dopiszNieudanyKodDoListyOrazLog(string kodKreskowy, int idRemanentu, string opisRemanetu, string lokalizacja, string dodatkowyOpisBledu)
         {
-            textBoxHistoriaNieudanychKodow.Text += kodKreskowy;
-            zaspisPojedynczegoBlednegoKoduDoPlikuLog(kodKreskowy);
+            textBoxHistoriaNieudanychKodow.Text += kodKreskowy + Environment.NewLine;
+            zaspisPojedynczegoBlednegoKoduDoPlikuLog(kodKreskowy, dodatkowyOpisBledu);
         }
 
     }
