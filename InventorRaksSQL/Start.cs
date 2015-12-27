@@ -21,6 +21,7 @@ namespace InventorRaksSQL
         private String tabela;
         private Dictionary<int, string> listTypRemanenetu;
         private string kolumna;
+        private int liczSan = 0;
 
         private Int32 memberRow = -1;
         private Int32 memberColumn = -1;
@@ -76,6 +77,9 @@ namespace InventorRaksSQL
                 
                 textBoxBufor.Text += textBoxInputScaner.Text + Environment.NewLine;
                 textBoxInputScaner.Text = "";
+
+                liczSan += 1;
+                licznikSkanow.Text = liczSan.ToString();
             }
         }
 
@@ -153,6 +157,7 @@ namespace InventorRaksSQL
                 //zapis i czyszczenie
                 zaspisWszystkichKodowDoPlikuLog("Zapis przy zapisywaniu do remanentu: ");
                 textBoxBufor.Text = "";
+                buttonZerujLicznik.PerformClick();
             }
         }
 
@@ -322,6 +327,12 @@ namespace InventorRaksSQL
             }
             else
                 MessageBox.Show("Nie wprowadzono nazwiska użytkownika","Ostrzeżenie",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+        }
+
+        private void buttonZerujLicznik_Click(object sender, EventArgs e)
+        {
+            liczSan = 0;
+            licznikSkanow.Text = "0";
         }
 
     }
