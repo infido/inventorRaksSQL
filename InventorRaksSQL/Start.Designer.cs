@@ -56,6 +56,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.zerowanieRemanentuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panelGora.SuspendLayout();
             this.panelHistory.SuspendLayout();
@@ -84,7 +85,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.konfiguracjaToolStripMenuItem});
+            this.konfiguracjaToolStripMenuItem,
+            this.zerowanieRemanentuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1151, 24);
@@ -341,6 +343,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // zerowanieRemanentuToolStripMenuItem
+            // 
+            this.zerowanieRemanentuToolStripMenuItem.Name = "zerowanieRemanentuToolStripMenuItem";
+            this.zerowanieRemanentuToolStripMenuItem.Size = new System.Drawing.Size(124, 20);
+            this.zerowanieRemanentuToolStripMenuItem.Text = "&Zerowanie remanentu";
+            this.zerowanieRemanentuToolStripMenuItem.Click += new System.EventHandler(this.zerowanieRemanentuToolStripMenuItem_Click);
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +422,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.ToolStripMenuItem zerowanieRemanentuToolStripMenuItem;
     }
 }
 

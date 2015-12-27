@@ -295,5 +295,34 @@ namespace InventorRaksSQL
             zaspisPojedynczegoBlednegoKoduDoPlikuLog(kodKreskowy, dodatkowyOpisBledu);
         }
 
+        private void zerowanieRemanentuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (textBoxLogin.Text.Length > 0)
+            {
+                if (MessageBox.Show("Czy jesteż pewien, że należy wyzerować wszystkie pozycje w remanencie: " + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Value,"Pytanie",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+                {
+                    if (MessageBox.Show("Czy rzeczywiście jesteż pewien, operacja jest nieodwracalna i wszytkie dne zostaną skasowane!", "Pytanie", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        FbCommand cdi = new FbCommand("update GM_REPOZ set ILOSC_NOWA=0 where ID_RE=" + ((KeyValuePair<int, string>)comboBoxTypRemanentu.SelectedItem).Key, polaczenie.getConnection());
+                        bool przerwano = false;
+                        try
+                        {
+                            cdi.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            przerwano = true;
+                            MessageBox.Show("Bład i przerwano zerowanie pozycji: " + ex.Message);
+                            throw;
+                        }
+
+                        if (!przerwano) MessageBox.Show("Pozycje remanentu skasowane!");
+                    }
+                }
+            }
+            else
+                MessageBox.Show("Nie wprowadzono nazwiska użytkownika","Ostrzeżenie",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+        }
+
     }
 }
