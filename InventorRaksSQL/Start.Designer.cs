@@ -32,6 +32,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.konfiguracjaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zerowanieRemanentuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelGora = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,6 +42,9 @@
             this.panelHistory = new System.Windows.Forms.Panel();
             this.textBoxBufor = new System.Windows.Forms.TextBox();
             this.panelSkaner = new System.Windows.Forms.Panel();
+            this.buttonZerujLicznik = new System.Windows.Forms.Button();
+            this.licznikSkanow = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelSzczegoly = new System.Windows.Forms.Panel();
@@ -56,10 +60,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.zerowanieRemanentuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label7 = new System.Windows.Forms.Label();
-            this.licznikSkanow = new System.Windows.Forms.Label();
-            this.buttonZerujLicznik = new System.Windows.Forms.Button();
+            this.buttonRaport = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panelGora.SuspendLayout();
             this.panelHistory.SuspendLayout();
@@ -102,6 +103,13 @@
             this.konfiguracjaToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.konfiguracjaToolStripMenuItem.Text = "&Konfiguracja";
             this.konfiguracjaToolStripMenuItem.Click += new System.EventHandler(this.konfiguracjaToolStripMenuItem_Click);
+            // 
+            // zerowanieRemanentuToolStripMenuItem
+            // 
+            this.zerowanieRemanentuToolStripMenuItem.Name = "zerowanieRemanentuToolStripMenuItem";
+            this.zerowanieRemanentuToolStripMenuItem.Size = new System.Drawing.Size(124, 20);
+            this.zerowanieRemanentuToolStripMenuItem.Text = "&Zerowanie remanentu";
+            this.zerowanieRemanentuToolStripMenuItem.Click += new System.EventHandler(this.zerowanieRemanentuToolStripMenuItem_Click);
             // 
             // panelGora
             // 
@@ -194,6 +202,36 @@
             this.panelSkaner.Name = "panelSkaner";
             this.panelSkaner.Size = new System.Drawing.Size(341, 113);
             this.panelSkaner.TabIndex = 0;
+            // 
+            // buttonZerujLicznik
+            // 
+            this.buttonZerujLicznik.Location = new System.Drawing.Point(249, 64);
+            this.buttonZerujLicznik.Name = "buttonZerujLicznik";
+            this.buttonZerujLicznik.Size = new System.Drawing.Size(75, 23);
+            this.buttonZerujLicznik.TabIndex = 6;
+            this.buttonZerujLicznik.Text = "Zeruj licznik";
+            this.buttonZerujLicznik.UseVisualStyleBackColor = true;
+            this.buttonZerujLicznik.Click += new System.EventHandler(this.buttonZerujLicznik_Click);
+            // 
+            // licznikSkanow
+            // 
+            this.licznikSkanow.AutoSize = true;
+            this.licznikSkanow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.licznikSkanow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.licznikSkanow.Location = new System.Drawing.Point(177, 67);
+            this.licznikSkanow.Name = "licznikSkanow";
+            this.licznikSkanow.Size = new System.Drawing.Size(19, 20);
+            this.licznikSkanow.TabIndex = 5;
+            this.licznikSkanow.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 72);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(155, 13);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Licznik zeskanowanych kodów";
             // 
             // label2
             // 
@@ -349,48 +387,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // zerowanieRemanentuToolStripMenuItem
+            // buttonRaport
             // 
-            this.zerowanieRemanentuToolStripMenuItem.Name = "zerowanieRemanentuToolStripMenuItem";
-            this.zerowanieRemanentuToolStripMenuItem.Size = new System.Drawing.Size(124, 20);
-            this.zerowanieRemanentuToolStripMenuItem.Text = "&Zerowanie remanentu";
-            this.zerowanieRemanentuToolStripMenuItem.Click += new System.EventHandler(this.zerowanieRemanentuToolStripMenuItem_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 72);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(155, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Licznik zeskanowanych kodów";
-            // 
-            // licznikSkanow
-            // 
-            this.licznikSkanow.AutoSize = true;
-            this.licznikSkanow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.licznikSkanow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.licznikSkanow.Location = new System.Drawing.Point(177, 67);
-            this.licznikSkanow.Name = "licznikSkanow";
-            this.licznikSkanow.Size = new System.Drawing.Size(19, 20);
-            this.licznikSkanow.TabIndex = 5;
-            this.licznikSkanow.Text = "0";
-            // 
-            // buttonZerujLicznik
-            // 
-            this.buttonZerujLicznik.Location = new System.Drawing.Point(249, 64);
-            this.buttonZerujLicznik.Name = "buttonZerujLicznik";
-            this.buttonZerujLicznik.Size = new System.Drawing.Size(75, 23);
-            this.buttonZerujLicznik.TabIndex = 6;
-            this.buttonZerujLicznik.Text = "Zeruj licznik";
-            this.buttonZerujLicznik.UseVisualStyleBackColor = true;
-            this.buttonZerujLicznik.Click += new System.EventHandler(this.buttonZerujLicznik_Click);
+            this.buttonRaport.Location = new System.Drawing.Point(0, 562);
+            this.buttonRaport.Name = "buttonRaport";
+            this.buttonRaport.Size = new System.Drawing.Size(40, 23);
+            this.buttonRaport.TabIndex = 5;
+            this.buttonRaport.Text = "Rap";
+            this.buttonRaport.UseVisualStyleBackColor = true;
+            this.buttonRaport.Click += new System.EventHandler(this.buttonRaport_Click);
             // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1151, 584);
+            this.Controls.Add(this.buttonRaport);
             this.Controls.Add(this.panelSzczegoly);
             this.Controls.Add(this.panelHistory);
             this.Controls.Add(this.panelGora);
@@ -462,6 +474,7 @@
         private System.Windows.Forms.Label licznikSkanow;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buttonZerujLicznik;
+        private System.Windows.Forms.Button buttonRaport;
     }
 }
 

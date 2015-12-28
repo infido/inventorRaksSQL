@@ -136,8 +136,8 @@ namespace InventorRaksSQL
             }
             else
             {
-                //setloc[2] = "Database=C:\\Program Files\\Raks\\Data\\F00001.fdb;";
-                setloc[2] = "Database=/usr/raks/Data/F00001.fdb;";
+                setloc[2] = "Database=C:\\Program Files\\Raks\\Data\\F00001.fdb;";
+                //setloc[2] = "Database=/usr/raks/Data/F00001.fdb;";
             };
             if (tServer.Text.Length > 0)
             {
@@ -149,8 +149,8 @@ namespace InventorRaksSQL
                 //setloc[3] = "DataSource=10.6.3.9;";
                 //setloc[3] = "DataSource=localhost;";
                 
-                //setloc[3] = "DataSource=127.0.0.1;";
-                setloc[3] = "DataSource=10.0.0.100;";
+                setloc[3] = "DataSource=127.0.0.1;";
+                //setloc[3] = "DataSource=10.0.0.100;";
             };
             if (tPort.Text.Length > 0)
             {

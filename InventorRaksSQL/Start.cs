@@ -370,5 +370,11 @@ namespace InventorRaksSQL
             licznikSkanow.Text = "0";
         }
 
+        private void buttonRaport_Click(object sender, EventArgs e)
+        {
+            Parametry pr = new Parametry(polaczenie);
+            pr.Show();
+        }
+
     }
 }

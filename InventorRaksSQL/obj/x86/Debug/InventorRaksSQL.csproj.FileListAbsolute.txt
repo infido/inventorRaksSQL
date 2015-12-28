@@ -13,3 +13,4 @@ C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\Invent
 C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\bin\Debug\InventorRaksSQL.application
 C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.exe.manifest
 C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.application
+C:\Documents and Settings\user\moje dokumenty\visual studio 2010\Projects\InventorRaksSQL\InventorRaksSQL\obj\x86\Debug\InventorRaksSQL.Parametry.resources
