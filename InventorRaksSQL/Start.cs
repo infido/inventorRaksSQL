@@ -232,15 +232,38 @@ namespace InventorRaksSQL
             FbCommand cdi;
             string sql;
             string errOpis = "";
+            string nazwaTmp;
             int currId = -1;
             decimal pozostalo = 1;  //skanujemy tylko 1 jednocześnie
             int jestRekordow = 0;
             decimal ilStara = 0;
             decimal ilNowa = 0;
 
+            sql = "select FIRST 1 GM_TOWARY.NAZWA ";
+            sql += "from GM_TOWARY ";
+            sql += " WHERE GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy +"'";
+            cdk = new FbCommand(sql, polaczenie.getConnection());
+
+            try
+            {
+                nazwaTmp = (String)cdk.ExecuteScalar();
+                if (nazwaTmp == null || nazwaTmp == "")
+                {
+                    errOpis = "Nie ma w kartotece towaru o kodzie kreskowym: " + kodKreskowy;
+                    textBoxHistoriaKodowPelna.Text += errOpis + Environment.NewLine;
+                    dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja, errOpis);
+                }
+            }
+            catch (FbException ex)
+            {
+                MessageBox.Show("Błąd zapytani o nazwę dla kodu kreskowego " + kodKreskowy + ": " + ex.Message);
+                throw;
+            }
+
+
             sql = "select count(*) ";
             sql += "from GM_REPOZ join GM_TOWARY on GM_REPOZ.ID_TOWAR=GM_TOWARY.ID ";
-            sql+= "WHERE GM_REPOZ.ID_RE=" + idRemanentu +  " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA ";
+            sql += " WHERE GM_REPOZ.ID_RE=" + idRemanentu +  " AND GM_TOWARY.KOD_KRESKOWY='" + kodKreskowy + "' AND GM_REPOZ.ILOSC_STARA>GM_REPOZ.ILOSC_NOWA ";
             cdk = new FbCommand(sql, polaczenie.getConnection());
 
             try
@@ -321,9 +344,12 @@ namespace InventorRaksSQL
             }
             else
             {
-                errOpis = "Brak pozycji z wystarczającą ilością dla kodu: " + kodKreskowy;
-                textBoxHistoriaKodowPelna.Text += errOpis + Environment.NewLine;
-                dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja, errOpis);
+                if (nazwaTmp != null && nazwaTmp.Length>0)
+                {
+                    errOpis = "Brak pozycji z wystarczającą ilością dla kodu: " + kodKreskowy + " Nazwa: " + nazwaTmp;
+                    textBoxHistoriaKodowPelna.Text += errOpis + Environment.NewLine;
+                    dopiszNieudanyKodDoListyOrazLog(kodKreskowy, idRemanentu, opisRemanetu, lokalizacja, errOpis);
+                }
             }
         }
 
