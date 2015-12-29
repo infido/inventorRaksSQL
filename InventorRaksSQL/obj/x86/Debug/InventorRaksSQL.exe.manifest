@@ -4,7 +4,7 @@
   <description asmv2:iconFile="wznow.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="InventorRaksSQL" version="1.0.0.5" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="InventorRaksSQL" version="1.0.0.6" language="neutral" processorArchitecture="x86" />
     <commandLine file="InventorRaksSQL.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -56,13 +56,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="InventorRaksSQL.exe" size="117760">
-      <assemblyIdentity name="InventorRaksSQL" version="1.0.0.5" language="neutral" processorArchitecture="x86" />
+      <assemblyIdentity name="InventorRaksSQL" version="1.0.0.6" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>jYTYl93GkH9XEls2JXCjto8VVy4=</dsig:DigestValue>
+        <dsig:DigestValue>Ymc3em0WZ31Q26bJEV3IQSd0YvE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
