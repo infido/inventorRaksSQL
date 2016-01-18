@@ -14,26 +14,27 @@ namespace InventorRaksSQL
     public partial class Start : Form
     {
         public ConnectionDB polaczenie;
-        private FbDataAdapter fda;
-        private DataSet fds;
-        private DataView fDataView;
-        private String strQuery;
-        private String tabela;
+        //private FbDataAdapter fda;
+        //private DataSet fds;
+        //private DataView fDataView;
+        //private String strQuery;
+        //private String tabela;
         private Dictionary<int, string> listTypRemanenetu;
-        private string kolumna;
+        //private string kolumna;
         private int liczSan = 0;
 
-        private Int32 memberRow = -1;
-        private Int32 memberColumn = -1;
+        //private Int32 memberRow = -1;
+        //private Int32 memberColumn = -1;
 
         private Int32 lineCounter = 0;
+
+        StreamWriter writer;
         
         public Start()
         {
             InitializeComponent();
             polaczenie = new ConnectionDB();
             Text = "InventorRaksSQL " + Application.ProductVersion;
-
             setDictonary();
         }
 
@@ -53,15 +54,29 @@ namespace InventorRaksSQL
                 {
                     listTypRemanenetu.Add((int)fdk["ID"], (string)fdk["NUMER"]);
                 }
+
+                if (listTypRemanenetu.Count == 0)
+                {
+                    listTypRemanenetu.Add(0, "Brak remanentów do obsługi...");
+                    MessageBox.Show("Brak remanentów w RaksSQL, do których można wczytywać towary!","Ostrzeżenie!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                }
             }
             catch (FbException ex)
             {
                 MessageBox.Show("Błąd wczytywania listy remanentów: " + ex.Message);
             }
-
-            comboBoxTypRemanentu.DataSource = new BindingSource(listTypRemanenetu, null);
-            comboBoxTypRemanentu.DisplayMember = "Value";
-            comboBoxTypRemanentu.ValueMember = "Key";
+            try
+            {
+                comboBoxTypRemanentu.DataSource = new BindingSource(listTypRemanenetu, null);
+                comboBoxTypRemanentu.DisplayMember = "Value";
+                comboBoxTypRemanentu.ValueMember = "Key";
+            }
+            catch (Exception e1)
+            {
+                MessageBox.Show("Bład ustawineia słownika: " + e1.Message);
+                throw;
+            }
+            
         }
 
         private void Start_FormClosing(object sender, FormClosingEventArgs e)
@@ -86,10 +101,10 @@ namespace InventorRaksSQL
 
         private void zaspisPojedynczegoKoduDoPlikuLog(string kod)
         {
-            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_poj_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
-                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString()+";"+comboBoxTypRemanentu.Text);
+                writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_poj_" + DateTime.Now.ToShortDateString() + ".log", true); 
+                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
 
             }
             catch (Exception ex)
@@ -105,10 +120,10 @@ namespace InventorRaksSQL
 
         private void zaspisPojedynczegoBlednegoKoduDoPlikuLog(string kod, string dodatkowyOpis)
         {
-            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_error_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
-                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text +";"+dodatkowyOpis);
+                writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_error_" + DateTime.Now.ToShortDateString() + ".log", true); 
+                writer.WriteLine(kod + ";" + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text + ";" + dodatkowyOpis);
 
             }
             catch (Exception ex)
@@ -124,9 +139,9 @@ namespace InventorRaksSQL
 
         private void zaspisWszystkichKodowDoPlikuLog(string opisDoLoga)
         {
-            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_all_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
+                writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_all_" + DateTime.Now.ToShortDateString() + ".log", true); 
                 writer.WriteLine(opisDoLoga + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text);
                 writer.WriteLine(textBoxBufor.Text);
 
@@ -144,9 +159,9 @@ namespace InventorRaksSQL
 
         private void zaspisZrzutuDoPlikuLog()
         {
-            StreamWriter writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_zrzut_" + DateTime.Now.ToShortDateString() + ".log", true);
             try
             {
+                writer = new StreamWriter(Environment.GetEnvironmentVariable("temp") + "\\InventorRaksSQL_zrzut_" + DateTime.Now.ToShortDateString() + ".log", true); 
                 writer.WriteLine("Początek " + DateTime.Now.ToString() + Environment.NewLine);
 
                 writer.WriteLine("Zrzut >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + Environment.NewLine + textBoxLogin.Text + ";" + DateTime.Now.ToString() + ";" + comboBoxTypRemanentu.Text + Environment.NewLine);
