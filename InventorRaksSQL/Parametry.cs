@@ -76,5 +76,21 @@ namespace InventorRaksSQL
             }
             
         }
+
+        private void getRaportOperatorow()
+        {
+            /*
+             * Indeks, nazwa, ilosc sprzedana w okresie, cena zakupu netto,cena sprzedaży netto, marża, zysk netto, użytkownik, magazyn
+             * wybór użytkownika
+             */
+        }
+
+        private void bSprzedazWgDostawcow_Click(object sender, EventArgs e)
+        {
+            /*
+             * Magazyn, indeks,Nazwa tow,ilosc sprzedana w zakresie dat, stan w magazynie, stan min, stan max, do zamówienia (nadstan z minusem), dostawca, producent
+             * Wskazanie dostawcy lub producenta
+             */
+        }
     }
 }

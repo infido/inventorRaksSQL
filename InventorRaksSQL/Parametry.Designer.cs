@@ -35,6 +35,8 @@
             this.dateDoDaty = new System.Windows.Forms.DateTimePicker();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonAnuluj = new System.Windows.Forms.Button();
+            this.bSprzedazWgDostawcow = new System.Windows.Forms.Button();
+            this.bSprzedazWgUzytkownikow = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dateOdDaty
@@ -73,24 +75,43 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(98, 83);
+            this.buttonOK.Location = new System.Drawing.Point(12, 115);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(70, 26);
+            this.buttonOK.Size = new System.Drawing.Size(166, 26);
             this.buttonOK.TabIndex = 4;
-            this.buttonOK.Text = "OK";
+            this.buttonOK.Text = "Raport operatorów";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // buttonAnuluj
             // 
             this.buttonAnuluj.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonAnuluj.Location = new System.Drawing.Point(12, 83);
+            this.buttonAnuluj.Location = new System.Drawing.Point(12, 211);
             this.buttonAnuluj.Name = "buttonAnuluj";
-            this.buttonAnuluj.Size = new System.Drawing.Size(70, 26);
+            this.buttonAnuluj.Size = new System.Drawing.Size(166, 26);
             this.buttonAnuluj.TabIndex = 5;
             this.buttonAnuluj.Text = "Anuluj";
             this.buttonAnuluj.UseVisualStyleBackColor = true;
             this.buttonAnuluj.Click += new System.EventHandler(this.buttonAnuluj_Click);
+            // 
+            // bSprzedazWgDostawcow
+            // 
+            this.bSprzedazWgDostawcow.Location = new System.Drawing.Point(12, 147);
+            this.bSprzedazWgDostawcow.Name = "bSprzedazWgDostawcow";
+            this.bSprzedazWgDostawcow.Size = new System.Drawing.Size(166, 26);
+            this.bSprzedazWgDostawcow.TabIndex = 6;
+            this.bSprzedazWgDostawcow.Text = "Sprzedaż wg dostawców";
+            this.bSprzedazWgDostawcow.UseVisualStyleBackColor = true;
+            this.bSprzedazWgDostawcow.Click += new System.EventHandler(this.bSprzedazWgDostawcow_Click);
+            // 
+            // bSprzedazWgUzytkownikow
+            // 
+            this.bSprzedazWgUzytkownikow.Location = new System.Drawing.Point(12, 179);
+            this.bSprzedazWgUzytkownikow.Name = "bSprzedazWgUzytkownikow";
+            this.bSprzedazWgUzytkownikow.Size = new System.Drawing.Size(166, 26);
+            this.bSprzedazWgUzytkownikow.TabIndex = 7;
+            this.bSprzedazWgUzytkownikow.Text = "Sprzedaż wg użytkowników";
+            this.bSprzedazWgUzytkownikow.UseVisualStyleBackColor = true;
             // 
             // Parametry
             // 
@@ -98,7 +119,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonAnuluj;
-            this.ClientSize = new System.Drawing.Size(190, 121);
+            this.ClientSize = new System.Drawing.Size(246, 243);
+            this.Controls.Add(this.bSprzedazWgUzytkownikow);
+            this.Controls.Add(this.bSprzedazWgDostawcow);
             this.Controls.Add(this.buttonAnuluj);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.label2);
@@ -121,5 +144,7 @@
         private System.Windows.Forms.DateTimePicker dateDoDaty;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonAnuluj;
+        private System.Windows.Forms.Button bSprzedazWgDostawcow;
+        private System.Windows.Forms.Button bSprzedazWgUzytkownikow;
     }
 }
